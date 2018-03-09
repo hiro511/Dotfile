@@ -43,6 +43,7 @@
       - name: redis
       - name: protobuf
       - name: kubernetes-helm
+      - name: go
  
   tasks:
     - name: homebrew update
