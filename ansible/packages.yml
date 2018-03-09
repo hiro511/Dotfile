@@ -1,0 +1,69 @@
+- hosts: localhost
+  connection: local
+ 
+  vars:
+    homebrew_taps:
+      - caskroom/cask
+      - caskroom/versions
+      - homebrew/dupes
+      - homebrew/versions
+      - homebrew/boneyard
+      - homebrew/binary
+ 
+    homebrew_cask_packages:
+      - name: alfred
+      - name: appcleaner
+      - name: atom
+      - name: google-chrome
+      - name: firefox
+      - name: slack
+      - name: coteditor
+      - name: postman
+      - name: iterm2
+      - name: evernote
+      - name: sourcetree
+ 
+    homebrew_packages:
+      - name: ansible
+      - name: python
+      - name: python3
+      - name: terraform
+      - name: the_silver_searcher
+      - name: tmux
+      - name: zsh
+      - name: ffmpeg
+      - name: bazel
+      - name: autoconf
+      - name: delve
+      - name: k6
+      - name: libev
+      - name: maven
+      - name: node
+      - name: peco
+      - name: redis
+      - name: protobuf
+      - name: kubernetes-helm
+ 
+  tasks:
+    - name: homebrew update
+      homebrew:
+        update_homebrew: yes
+ 
+    - name: homebrew tap
+      homebrew_tap:
+        name: '{{ item }}'
+        state: present
+      with_items: '{{ homebrew_taps }}'
+ 
+    - name: homebrew cask packages install
+      homebrew_cask: name={{ item.name }} state=installed
+      environment:
+        HOMEBREW_CASK_OPTS: "--appdir=/Applications"
+      with_items: '{{ homebrew_cask_packages }}'
+ 
+    - name: homebrew packages install
+      homebrew:
+        name: '{{ item.name }}'
+        state: '{{ item.state | default("present") }}'
+      with_items: '{{ homebrew_packages }}'
+

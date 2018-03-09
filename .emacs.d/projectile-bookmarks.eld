@@ -1,0 +1,1 @@
+("~/Go/src/github.com/awa/bucketeer/")
