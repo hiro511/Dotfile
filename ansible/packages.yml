@@ -5,12 +5,14 @@
     homebrew_taps:
       - caskroom/cask
       - caskroom/versions
-      - homebrew/dupes
-      - homebrew/versions
-      - homebrew/boneyard
-      - homebrew/binary
- 
+      - loadimpact/k6
+
     homebrew_cask_packages:
+      - name: emacs
+      - name: java8
+      - name: java
+      - name: docker
+      - name: google-japanese-ime
       - name: alfred
       - name: appcleaner
       - name: atom
@@ -27,6 +29,7 @@
       - name: ansible
       - name: python
       - name: python3
+      - name: emacs
       - name: terraform
       - name: the_silver_searcher
       - name: tmux
@@ -34,7 +37,7 @@
       - name: ffmpeg
       - name: bazel
       - name: autoconf
-      - name: delve
+      - name: go-delve/delve/delve
       - name: k6
       - name: libev
       - name: maven
