@@ -1,1 +1,1 @@
-("~/Go/src/github.com/awa/bucketeer/")
+("~/.zprezto/" "~/Go/src/github.com/awa/bucketeer-ops/" "~/Go/src/github.com/awa/bucketeer/" "~/Dotfile/")

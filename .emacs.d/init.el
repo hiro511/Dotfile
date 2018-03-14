@@ -216,7 +216,13 @@
 
 ;; Ensure the go specific autocomplete is active in go-mode.
 (with-eval-after-load 'go-mode
-  (require 'go-autocomplete))
+  (require 'go-autocomplete)
+  (require 'auto-complete-config)
+  (ac-config-default))
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH"))
 
 ;; If the go-guru.el file is in the load path, this will load it.
 (require 'go-guru)
@@ -242,3 +248,29 @@
 (projectile-global-mode)
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (git-gutter-fringe+ git-gutter+ terraform-mode protobuf-mode bazel-mode package-utils yaml-mode smartparens neotree multi-term monokai-theme helm-projectile go-mode go-autocomplete flymake-go exec-path-from-shell elpy))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;; Bazel
+(add-hook 'bazel-mode-hook (lambda () (add-hook 'before-save-hook #'bazel-format nil t)))
+
+;; Protocol buffer
+(require 'protobuf-mode)
+
+;; Git
+(require 'git-gutter)
+(global-git-gutter-mode t)
+(git-gutter:linum-setup)
+
