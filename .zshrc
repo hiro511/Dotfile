@@ -108,3 +108,8 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 fpath[1,0]=~/.zsh/completion/
 mkdir -p ~/.zsh/completion/
 cp scripts/zsh_completion/_bazel ~/.zsh/completion
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '~/google-cloud-sdk/path.zsh.inc' ]; then source '~/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '~/google-cloud-sdk/completion.zsh.inc' ]; then source '~/google-cloud-sdk/completion.zsh.inc'; fi
