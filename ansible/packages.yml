@@ -13,6 +13,7 @@
       - name: java
       - name: docker
       - name: google-japanese-ime
+      - name: google-cloud-sdk
       - name: alfred
       - name: appcleaner
       - name: atom
@@ -47,7 +48,35 @@
       - name: protobuf
       - name: kubernetes-helm
       - name: go
- 
+      - name: trash
+      - name: dep
+
+    go_get:
+      - name: kingpin
+        url: gopkg.in/alecthomas/kingpin.v2
+      - name: godef
+        url: github.com/rogpeppe/godef
+      - name: gocode
+        url: github.com/nsf/gocode
+      - name: golint
+        url: github.com/golang/lint/golint
+      - name: errcheck
+        url: github.com/kisielk/errcheck
+      - name: grpc
+        url: google.golang.org/grpc
+      - name: protoc-gen-go
+        url: github.com/golang/protobuf/protoc-gen-go
+      - name: zap
+        url: go.uber.org/zap
+      - name: testify
+        url: github.com/stretchr/testify
+      - name: flymake
+        url: github.com/dougm/goflymake
+      - name: gomock
+        url: github.com/golang/mock/gomock
+      - name: mockgen
+        url: github.com/golang/mock/mockgen
+
   tasks:
     - name: homebrew update
       homebrew:
@@ -71,3 +100,7 @@
         state: '{{ item.state | default("present") }}'
       with_items: '{{ homebrew_packages }}'
 
+    - name: golang packages install
+      shell: "go get -u {{ item.url }}"
+      with_items: "{{ go_get }}"
+      changed_when: false
