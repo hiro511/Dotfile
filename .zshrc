@@ -67,6 +67,7 @@ plugins=(
   golang
   helm
   kubectl
+  brew
 )
 
 source $ZSH/oh-my-zsh.sh
