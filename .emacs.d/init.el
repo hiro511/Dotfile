@@ -84,6 +84,9 @@
 ;; helmの設定
 (require 'helm)
 (require 'helm-config)
+(require 'helm-ag)
+(setq helm-ag-base-command "rg --vimgrep --no-heading")
+(global-set-key (kbd "C-c s") 'helm-ag)
 
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
@@ -255,7 +258,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (git-gutter-fringe+ git-gutter+ terraform-mode protobuf-mode bazel-mode package-utils yaml-mode smartparens neotree multi-term monokai-theme helm-projectile go-mode go-autocomplete flymake-go exec-path-from-shell elpy))))
+    (projectile-ripgrep ripgrep git-gutter-fringe+ git-gutter+ terraform-mode protobuf-mode bazel-mode package-utils yaml-mode smartparens neotree multi-term monokai-theme helm-projectile go-mode go-autocomplete flymake-go exec-path-from-shell elpy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
