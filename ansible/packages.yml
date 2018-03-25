@@ -32,6 +32,7 @@
       - name: python
       - name: python3
       - name: kubectl
+      - name: ripgrep
       - name: emacs
       - name: terraform
       - name: the_silver_searcher
