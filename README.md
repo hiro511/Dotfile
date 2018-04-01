@@ -17,8 +17,17 @@ The following command executes ansible and install apps written in packages.yml.
 $ make install
 ```
 
-### Backup
-Backup to Dotfile directory.
+### Put
 ``` bash
-$ make backup
+$ make put
 ```
+
+### ssh
+Add the following config to .ssh/config.
+```
+Host *
+     AddKeysToAgent yes
+     UseKeychain yes
+     IdentityFile ~/.ssh/id_rsa
+```
+
