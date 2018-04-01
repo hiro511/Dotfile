@@ -6,3 +6,4 @@ install:
 put:
 	ln -sf ${CURDIR}/.emacs.d ${HOME}/.emacs.d
 	ln -sf ${CURDIR}/.zshrc ${HOME}/.zshrc
+	ln -sf ${CURDIR}/.iterm ${HOME}/.iterm
