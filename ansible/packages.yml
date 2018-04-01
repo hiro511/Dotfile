@@ -32,6 +32,7 @@
       - name: python
       - name: python3
       - name: kubectl
+      - name: jsonnet
       - name: ripgrep
       - name: emacs
       - name: terraform
