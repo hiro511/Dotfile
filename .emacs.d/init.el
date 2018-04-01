@@ -58,7 +58,7 @@
 ;; auto-installの設定
 (when (require 'auto-install nil t)
   (setq auto-install-directory "~/.emacs.d/elisp/")
-  (auto-install-update-emacswiki-package-name t)
+;;  (auto-install-update-emacswiki-package-name t)
   (auto-install-compatibility-setup))
 
 ;; melpaの設定
@@ -121,60 +121,6 @@
 (when (require 'multi-term nil t)
   (setq multi-term-program "/usr/local/bin/zsh"))
 
-;; Flymakeの設定
-(defvar flymake-makefile-filenames
-  '("Makefile" "makefile" "GNUmakefile")
-  "file names for make.")
-
-(defun flymake-get-make-gcc-cmdline (source base-dir)
-  (let (found)
-    (dolist (makefile flymake-makefile-filenames)
-      (if (file-readable-p (concat base-dir "/" makefile))
-	  (setq found t)))
-    (if found
-	(list "make"
-	      (list "-s"
-		    "-C"
-		    base-dir
-		    (concat "CHK_SOURCES=" source)
-		    "SYNTAX_CHECK_MODE=1"
-		    "check-syntax"))
-      (list (if (string= (file-name-extension source) "c") "gcc" "g++")
-	    (list "-o"
-		  "/dev/null"
-		  "-fsyntax-only"
-		  "-Wall"
-		  source)))))
-
-(defun flymake-simple-make-gcc-init-impl
-    (create-temp-f use-relative-base-dir
-		   use-relarive-source build-file-name get-cmdline-f)
-  "Create syntax check command line for a directoly checked source file. Use CREATE-TMP-F for creating tmp copy."
-  (let* ((args nil)
-	 (source-file-name buffer-file-name)
-	 (buildfile-dir (file-name-directory source-file-name)))
-    (if buildfile-dir
-	(let* ((temp-source-file-name
-		(flymake-init-create-temp-buffer-copy create-temp-f)))
-	  (setq args
-		(flymake-get-syntax-check-program-args
-		 temp-source-file-name
-		 buildfile-dir
-		 use-relative-base-dir
-		 use-relarive-source
-		 get-cmdline-f))))
-    args))
-
-(defun flymake-simple-make-gcc-init ()
-  (message "%s" (flymake-simple-make-gcc-init-impl
-		 'flymake-create-temp-inplace t t "Makefile"
-		 'flymake-get-make-gcc-cmdline))
-  (flymake-simple-make-gcc-init-impl
-   'flymake-create-temp-inplace t t "Makefile"
-   'flymake-get-make-gcc-cmdline))
-
-
-
 (tool-bar-mode -1)                  ; Disable the button bar atop screen
 (scroll-bar-mode -1)                ; Disable scroll bar
 (setq inhibit-startup-screen t)     ; Disable startup screen with graphics
@@ -214,6 +160,14 @@
   ;; Misc go stuff
   (auto-complete-mode 1))                         ; Enable auto-complete mode
 
+;; flycheck golinter
+(require 'flycheck)
+(require 'flycheck-gometalinter)
+(flycheck-gometalinter-setup) ;; flycheckのcheckerのリストにgometalinterを追加
+(setq flycheck-gometalinter-fast t) ;; only run fast linters
+(setq flycheck-gometalinter-test t) ;; use in tests files
+(add-hook 'go-mode-hook 'flycheck-mode) ;; go-modeでflycheckを利用するように
+
 ;; Connect go-mode-hook with the function we just defined
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
@@ -222,6 +176,7 @@
   (require 'go-autocomplete)
   (require 'auto-complete-config)
   (ac-config-default))
+  (add-hook 'go-mode-hook 'go-eldoc-setup)
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize)
@@ -241,31 +196,6 @@
 (package-initialize)
 (elpy-enable)
 
-;; projectile for golang
-(projectile-mode)
-(defun my-switch-project-hook ()
-  (go-set-project))
-(add-hook 'projectile-after-switch-project-hook #'my-switch-project-hook)
-
-;; projectile
-(projectile-global-mode)
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (projectile-ripgrep ripgrep git-gutter-fringe+ git-gutter+ terraform-mode protobuf-mode bazel-mode package-utils yaml-mode smartparens neotree multi-term monokai-theme helm-projectile go-mode go-autocomplete flymake-go exec-path-from-shell elpy))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 ;; Bazel
 (add-hook 'bazel-mode-hook (lambda () (add-hook 'before-save-hook #'bazel-format nil t)))
 
@@ -277,3 +207,21 @@
 (global-git-gutter-mode t)
 (git-gutter:linum-setup)
 
+;; go-flymake
+;;(add-to-list 'load-path "~/Go/src/github.com/dougm/goflymake")
+;;   (require 'go-flymake)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (flymake-json flycheck go-errcheck go-eldoc flycheck-gometalinter yaml-mode terraform-mode smartparens protobuf-mode projectile-ripgrep package-utils neotree multi-term monokai-theme helm-projectile helm-ag go-complete go-autocomplete git-gutter-fringe+ git-gutter flymake-go exec-path-from-shell elpy bazel-mode))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
