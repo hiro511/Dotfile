@@ -122,7 +122,6 @@
   (setq multi-term-program "/usr/local/bin/zsh"))
 
 (tool-bar-mode -1)                  ; Disable the button bar atop screen
-(scroll-bar-mode -1)                ; Disable scroll bar
 (setq inhibit-startup-screen t)     ; Disable startup screen with graphics
 ;; (set-default-font "Monaco 12")      ; Set font and size
 (setq-default indent-tabs-mode nil) ; Use spaces instead of tabs

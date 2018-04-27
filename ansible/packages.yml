@@ -18,7 +18,7 @@
       - name: alfred
       - name: appcleaner
       - name: atom
-      - name: google-chrome
+#      - name: google-chrome
       - name: firefox
       - name: slack
       - name: coteditor
@@ -42,7 +42,7 @@
       - name: ffmpeg
       - name: bazel
       - name: autoconf
-      - name: go-delve/delve/delve
+#      - name: go-delve/delve/delve
       - name: k6
       - name: libev
       - name: maven
@@ -80,6 +80,8 @@
         url: github.com/golang/mock/gomock
       - name: mockgen
         url: github.com/golang/mock/mockgen
+      - name: goimports
+        url: golang.org/x/tools/cmd/goimports
 
   tasks:
     - name: homebrew update
